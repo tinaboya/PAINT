@@ -1,0 +1,267 @@
+SYSTEM_PROMPT_EN = """
+You are a clinical NLP specialist. Analyze the following clinical text step-by-step to extract demographic information.
+
+## Step-by-Step Analysis:
+
+### Step 1: Extract Age
+
+Think: Is an age or age-equivalent mentioned in the text?
+
+- Extract the exact number and unit as written (e.g., "45 years", "3 months", "2 weeks")
+- If age is expressed implicitly (e.g., "newborn", "elderly"), do NOT infer a number — return null
+- If multiple ages are mentioned (e.g., age at admission vs. current age), extract the most clinically current one
+- If no age is mentioned → age = null
+
+### Step 2: Extract Gender/Sex
+
+Think: Is the patient's gender or sex mentioned or clearly implied?
+
+- Extract the term as written in the text (e.g., "female", "male", "woman", "man", "boy", "girl")
+- Pronouns alone (e.g., "he", "she") are acceptable evidence if no explicit term is present
+- If gender is ambiguous or not mentioned → gender = null
+
+### Step 3: Extract Ethnicity/Race
+
+Think: Is the patient's ethnicity or race explicitly mentioned?
+
+- Extract the term as written (e.g., "Hispanic", "Asian", "White", "Black", "African American")
+- Do NOT infer ethnicity from names, locations, or other indirect signals
+- If not explicitly mentioned → ethnicity = null
+
+### Step 4: Extract Occupation
+
+Think: Is the patient's occupation or employment status mentioned?
+
+- Extract the term as written (e.g., "teacher", "construction worker", "retired", "unemployed")
+- Include occupational context if relevant (e.g., "factory worker with chemical exposure")
+- If not mentioned → occupation = null
+
+## Logical Constraints (MUST FOLLOW):
+
+1. Never infer or guess a field that is not explicitly stated in the text
+2. Never translate or normalize extracted values — preserve the original wording
+3. If a field is absent or ambiguous, always return null
+
+## Clinical Text to Analyze: {text}
+
+## Your Response:
+
+First, write your step-by-step reasoning for Steps 1-4. Then output ONLY the final JSON result.
+
+### Reasoning:
+
+[Write your reasoning here for each step]
+
+### Final JSON Output:
+
+FINAL_JSON:
+{{
+  "age": "45 years" or null,
+  "gender": "female" or null,
+  "ethnicity": "Hispanic" or null,
+  "occupation": "teacher" or null
+}}
+
+Respond with your reasoning followed by the JSON object only. You MUST include the exact line FINAL_JSON: immediately before the JSON object. Output nothing after the JSON.
+"""
+
+SYSTEM_PROMPT_JP = """
+You are a clinical NLP specialist. Analyze the following Japanese clinical text step-by-step to extract demographic information.
+
+## Step-by-Step Analysis:
+
+### Step 1: Extract Age
+
+Think: Is an age or age-equivalent mentioned in the text?
+
+- Extract the exact number and unit as written (e.g., "45歳", "3ヶ月", "2週間")
+- If age is expressed implicitly (e.g., "新生児", "高齢者"), do NOT infer a number — return null
+- If multiple ages are mentioned, extract the most clinically current one
+- If no age is mentioned → age = null
+
+### Step 2: Extract Gender/Sex
+
+Think: Is the patient's gender or sex mentioned or clearly implied?
+
+- Extract the term as written in the text (e.g., "女性", "男性", "女の子", "男の子")
+- Pronouns or gendered honorifics alone (e.g., "彼", "彼女") are acceptable evidence if no explicit term is present
+- If gender is ambiguous or not mentioned → gender = null
+
+### Step 3: Extract Ethnicity/Race
+
+Think: Is the patient's ethnicity or race explicitly mentioned?
+
+- Extract the term as written (e.g., "日本人", "中国人", "ヒスパニック系")
+- Do NOT infer ethnicity from names, locations, or other indirect signals
+- If not explicitly mentioned → ethnicity = null
+
+### Step 4: Extract Occupation
+
+Think: Is the patient's occupation or employment status mentioned?
+
+- Extract the term as written (e.g., "教師", "建設作業員", "退職者", "無職")
+- Include occupational context if relevant (e.g., "化学物質にさらされた工場労働者")
+- If not mentioned → occupation = null
+
+## Logical Constraints (MUST FOLLOW):
+
+1. Never infer or guess a field that is not explicitly stated in the text
+2. Never translate or normalize extracted values — preserve the original wording
+3. If a field is absent or ambiguous, always return null
+
+## Clinical Text to Analyze: {text}
+
+## Your Response:
+
+First, write your step-by-step reasoning for Steps 1-4. Then output ONLY the final JSON result.
+
+### Reasoning:
+
+[Write your reasoning here for each step]
+
+### Final JSON Output:
+
+FINAL_JSON:
+{{
+  "age": "45歳" or null,
+  "gender": "女性" or null,
+  "ethnicity": "日本人" or null,
+  "occupation": "教師" or null
+}}
+
+Respond with your reasoning followed by the JSON object only. You MUST include the exact line FINAL_JSON: immediately before the JSON object. Output nothing after the JSON.
+"""
+
+SYSTEM_PROMPT_ES = """
+You are a clinical NLP specialist. Analyze the following Spanish clinical text step-by-step to extract demographic information.
+
+## Step-by-Step Analysis:
+
+### Step 1: Extract Age
+
+Think: Is an age or age-equivalent mentioned in the text?
+
+- Extract the exact number and unit as written (e.g., "45 años", "3 meses", "2 semanas")
+- If age is expressed implicitly (e.g., "recién nacido", "anciano"), do NOT infer a number — return null
+- If multiple ages are mentioned, extract the most clinically current one
+- If no age is mentioned → age = null
+
+### Step 2: Extract Gender/Sex
+
+Think: Is the patient's gender or sex mentioned or clearly implied?
+
+- Extract the term as written in the text (e.g., "mujer", "hombre", "femenino", "masculino", "niña", "niño")
+- Gendered article usage alone (e.g., "el paciente", "la paciente") is acceptable evidence if no explicit term is present
+- If gender is ambiguous or not mentioned → gender = null
+
+### Step 3: Extract Ethnicity/Race
+
+Think: Is the patient's ethnicity or race explicitly mentioned?
+
+- Extract the term as written (e.g., "hispano/a", "afrodescendiente", "caucásico/a", "asiático/a")
+- Do NOT infer ethnicity from names, locations, or other indirect signals
+- If not explicitly mentioned → ethnicity = null
+
+### Step 4: Extract Occupation
+
+Think: Is the patient's occupation or employment status mentioned?
+
+- Extract the term as written (e.g., "maestro/a", "obrero/a", "jubilado/a", "desempleado/a")
+- Include occupational context if relevant (e.g., "trabajador de fábrica con exposición a químicos")
+- If not mentioned → occupation = null
+
+## Logical Constraints (MUST FOLLOW):
+
+1. Never infer or guess a field that is not explicitly stated in the text
+2. Never translate or normalize extracted values — preserve the original wording
+3. If a field is absent or ambiguous, always return null
+
+## Clinical Text to Analyze: {text}
+
+## Your Response:
+
+First, write your step-by-step reasoning for Steps 1-4. Then output ONLY the final JSON result.
+
+### Reasoning:
+
+[Write your reasoning here for each step]
+
+### Final JSON Output:
+
+FINAL_JSON:
+{{
+  "age": "45 años" or null,
+  "gender": "mujer" or null,
+  "ethnicity": "hispano" or null,
+  "occupation": "maestro" or null
+}}
+
+Respond with your reasoning followed by the JSON object only. You MUST include the exact line FINAL_JSON: immediately before the JSON object. Output nothing after the JSON.
+"""
+
+SYSTEM_PROMPT_BZ = """
+You are a clinical NLP specialist. Analyze the following Brazil Portuguese clinical text step-by-step to extract demographic information.
+
+## Step-by-Step Analysis:
+
+### Step 1: Extract Age
+
+Think: Is an age or age-equivalent mentioned in the text?
+
+- Extract the exact number and unit as written (e.g., "45 anos", "3 meses", "2 semanas")
+- If age is expressed implicitly (e.g., "recém-nascido", "idoso"), do NOT infer a number — return null
+- If multiple ages are mentioned, extract the most clinically current one
+- If no age is mentioned → age = null
+
+### Step 2: Extract Gender/Sex
+
+Think: Is the patient's gender or sex mentioned or clearly implied?
+
+- Extract the term as written in the text (e.g., "mulher", "homem", "feminino", "masculino", "menina", "menino")
+- Gendered article usage alone (e.g., "o paciente", "a paciente") is acceptable evidence if no explicit term is present
+- If gender is ambiguous or not mentioned → gender = null
+
+### Step 3: Extract Ethnicity/Race
+
+Think: Is the patient's ethnicity or race explicitly mentioned?
+
+- Extract the term as written (e.g., "pardo/a", "branco/a", "negro/a", "asiático/a", "indígena")
+- Do NOT infer ethnicity from names, locations, or other indirect signals
+- If not explicitly mentioned → ethnicity = null
+
+### Step 4: Extract Occupation
+
+Think: Is the patient's occupation or employment status mentioned?
+
+- Extract the term as written (e.g., "professor/a", "operário/a", "aposentado/a", "desempregado/a")
+- Include occupational context if relevant (e.g., "trabalhador de fábrica com exposição a produtos químicos")
+- If not mentioned → occupation = null
+
+## Logical Constraints (MUST FOLLOW):
+
+1. Never infer or guess a field that is not explicitly stated in the text
+2. Never translate or normalize extracted values — preserve the original wording
+3. If a field is absent or ambiguous, always return null
+
+## Clinical Text to Analyze: {text}
+
+## Your Response:
+
+First, write your step-by-step reasoning for Steps 1-4. Then output ONLY the final JSON result.
+
+### Reasoning:
+
+[Write your reasoning here for each step]
+
+### Final JSON Output:
+
+FINAL_JSON:
+{{
+  "age": "45 anos" or null,
+  "gender": "mulher" or null,
+  "ethnicity": "pardo" or null,
+  "occupation": "professor" or null
+}}
+
+Respond with your reasoning followed by the JSON object only. You MUST include the exact line FINAL_JSON: immediately before the JSON object. Output nothing after the JSON.
+"""

@@ -1,0 +1,18 @@
+# PAINT — evaluation & analysis pipeline (Stages 1–4)
+#
+# The scripts in src/paint/ that evaluate and analyse the model outputs
+# depend only on the Python 3.9+ standard library. Nothing to install:
+#
+#   python3 src/paint/csv_to_eval_json.py      --output outputs/runs/
+#   python3 src/paint/extraction_evaluation.py --force outputs/runs/llm_*.json
+#   python3 src/paint/ensemble.py              --all --output outputs/ensemble/
+#   python3 src/paint/analysis.py              --output outputs/analysis/
+#
+# Optional extras (NOT needed for the paper numbers):
+#   sentence-transformers>=2.2.0   # only for extraction_evaluation.py
+#                                  # --location-metric semantic
+#
+# Stage 0 (model inference) is separate and DOES need third-party packages
+# (vllm, transformers, aiohttp, pandas, tqdm) plus a CUDA GPU. Install those
+# from:
+#   PAINT-open-source-models/requirements.txt
