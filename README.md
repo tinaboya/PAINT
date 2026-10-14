@@ -167,9 +167,6 @@ run), [`prompts/README.md`](prompts/README.md), [`model_outputs/README.md`](mode
 }
 ```
 
-If you use the data, please also cite WorldMedQA, and for BRIDGE-Pain, BRIDGE and the underlying
-corpora.
-
 ## License
 
 MIT for the code and the WorldMedQA-Pain labels, see [LICENSE](LICENSE). The BRIDGE-Pain corpora
