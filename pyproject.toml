@@ -36,6 +36,10 @@ dependencies = []
 semantic = [
     "sentence-transformers>=2.2.0",
 ]
+# Only needed to read .xlsx annotation sheets; the released sheets are CSV.
+xlsx = [
+    "openpyxl>=3.1",
+]
 dev = [
     "ruff>=0.1.0",
 ]

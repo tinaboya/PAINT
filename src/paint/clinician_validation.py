@@ -18,7 +18,7 @@ BRIDGE-Pain validates all five fields; WorldMedQA-Pain validates demographics
 only (its pain fields carry physician gold). Spanish has a single annotator,
 so its splits have an accuracy but no inter-annotator agreement.
 
-Run (needs openpyxl):
+Run (openpyxl is only needed for .xlsx sheets; the released sheets are CSV):
     /usr/bin/python3 src/paint/clinician_validation.py
 """
 
@@ -30,8 +30,6 @@ import json
 import math
 import os
 import re
-
-import openpyxl
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT_PATH = os.path.join(ROOT, "outputs", "analysis", "clinician_validation.json")
@@ -59,6 +57,10 @@ def _load(path):
         rows = [[c if c != "" else None for c in r]
                 for r in csv.reader(open(path, encoding="utf-8", errors="replace"))]
     else:
+        try:
+            import openpyxl  # only needed for .xlsx sheets; the released sheets are CSV
+        except ImportError as e:
+            raise SystemExit(f"{path}: reading .xlsx sheets needs openpyxl (pip install openpyxl)") from e
         wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
         rows = [list(r) for r in wb.active.iter_rows(values_only=True)]
         wb.close()
