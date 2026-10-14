@@ -22,8 +22,9 @@ years, gender male/female, severity mild/moderate/severe, list items
 lower-cased) is shared with ``analysis.py``.
 
 No physician labels are used or required: the released labels are produced by
-the open-weight ensemble alone. Rows are aligned by position; ``row_index`` is
-the 0-based position shared with ``model_outputs/`` and the annotation sheets.
+the open-weight ensemble alone. Rows are aligned by position and the alignment
+is verified against the index column of every model file; ``row_index`` is the
+0-based position shared with ``model_outputs/`` and the annotation sheets.
 
 Run:
     python3 src/paint/build_wmqa_labels.py            # rewrite the CSVs
@@ -117,14 +118,41 @@ def _majority(pain_rows, demo_rows, i):
     return out
 
 
+def check_alignment(partition, data_rows, pain_rows, demo_rows):
+    """Fail unless every model-output file is in the same row order as the data file.
+
+    Rows are joined by position, so a reordered, truncated or duplicated file
+    would silently produce wrong labels. Each model file carries an index
+    column under one of two schemes: the 0-based row position (``row_index``,
+    or ``Question_ID`` in some files) or the WorldMedQA ``Question_ID`` of the
+    item. Whichever scheme a file uses, every row must match the data file at
+    the same position; row counts must be identical as well.
+    """
+    counts = {len(data_rows)} | {len(r) for r in pain_rows.values()} | {len(r) for r in demo_rows.values()}
+    if len(counts) != 1:
+        raise SystemExit(f"[{partition}] row counts differ across files: {sorted(counts)}")
+    source_ids = [str(d.get("Question_ID", "")).strip() for d in data_rows]
+    problems = []
+    for task, files in (("pain", pain_rows), ("demographics", demo_rows)):
+        for m, rows in files.items():
+            col = "row_index" if "row_index" in rows[0] else "Question_ID"
+            ids = [str(r.get(col, "")).strip() for r in rows]
+            by_position = sum(1 for i, v in enumerate(ids) if v == str(i))
+            by_source = sum(1 for i, v in enumerate(ids) if v == source_ids[i])
+            if max(by_position, by_source) != len(rows):
+                problems.append(f"{m}/{partition}_{task}.csv: {col} matches the row position on "
+                                f"{by_position}/{len(rows)} rows and the source Question_ID on {by_source}/{len(rows)}")
+    if problems:
+        raise SystemExit(f"[{partition}] model outputs are not row-aligned with data/WorldMedQA-Pain/{partition}.csv:\n  "
+                         + "\n  ".join(problems))
+
+
 def build_partition(partition: str):
     """Return the release rows for one partition (identity + text + labels)."""
     data_rows = _read(DATA_DIR / f"{partition}.csv")
     pain_rows = {m: _read(MODEL_OUTPUTS / m / f"{partition}_pain.csv") for m in MEMBERS}
     demo_rows = {m: _read(MODEL_OUTPUTS / m / f"{partition}_demographics.csv") for m in MEMBERS}
-    counts = {len(data_rows)} | {len(r) for r in pain_rows.values()} | {len(r) for r in demo_rows.values()}
-    if len(counts) != 1:
-        raise SystemExit(f"[{partition}] row counts differ across files: {sorted(counts)}")
+    check_alignment(partition, data_rows, pain_rows, demo_rows)
     out = []
     for i, d in enumerate(data_rows):
         question = d.get("Question", "")
@@ -174,6 +202,9 @@ def main() -> None:
         path = DATA_DIR / f"{part}.csv"
         if args.check:
             current = _read(path)
+            if len(current) != len(rows):
+                print(f"[{part}] {path.name} has {len(current)} rows, rebuild has {len(rows)}")
+                mismatches += abs(len(current) - len(rows)) * len(LABEL_COLUMNS)
             for new, old in zip(rows, current):
                 for c in LABEL_COLUMNS:
                     if str(new[c]) != old.get(c, ""):
