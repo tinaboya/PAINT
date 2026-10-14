@@ -61,11 +61,13 @@ Each row of `data/WorldMedQA-Pain/<Partition>.csv` is one exam question.
 | `ensemble_severity` | `mild`, `moderate` or `severe`, majority of the models |
 | `ensemble_age`, `ensemble_gender`, `ensemble_ethnicity`, `ensemble_occupation` | age in years, gender `male`/`female`, ethnicity and occupation as free text; majority of the models |
 
-In the last three rows, an empty cell means no model extracted anything and `abstain` means the models disagreed.
+For the majority-vote fields (the last three rows), an empty cell indicates that no model returned
+a value and `abstain` indicates that the models disagreed without a majority.
 
-Clinicians checked pain relevance, pain presence, age, gender and occupation. Location,
-descriptors, severity and ethnicity were not checked, and ethnicity categories mean different
-things in different countries, so treat those columns with care.
+Pain relevance, pain presence, age, gender and occupation were validated by clinicians, as
+reported in the paper. Location, pain descriptors, severity and ethnicity are ensemble outputs
+without clinician validation. Ethnicity categories are country-specific and should not be
+compared across partitions.
 
 The answer options, correct answer, specialty and year from WorldMedQA are not included. They are
 in the [WorldMedQA repo](https://github.com/WorldMedQA/V).
