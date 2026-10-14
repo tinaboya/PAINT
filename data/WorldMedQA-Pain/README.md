@@ -16,6 +16,17 @@ tags:
   - licensing-exams
 size_categories:
   - 1K<n<10K
+configs:
+  - config_name: default
+    data_files:
+      - split: uk
+        path: UK.csv
+      - split: spain
+        path: Spain.csv
+      - split: japan
+        path: Japan.csv
+      - split: brazil
+        path: Brazil.csv
 ---
 
 # WorldMedQA-Pain
@@ -33,6 +44,11 @@ DeepSeek-R1-Distill-Qwen-32B) and were validated by clinicians in each language.
 | `Spain.csv` | Spain MIR | es | 1,049 |
 | `Japan.csv` | Japan NLE | ja | 742 |
 | `Brazil.csv` | Brazil REVALIDA | pt | 904 |
+
+```python
+from datasets import load_dataset
+ds = load_dataset("tinaboya/WorldMedQA-Pain")   # splits: uk, spain, japan, brazil
+```
 
 One row per exam item. Items and English translations are from
 [WorldMedQA](https://github.com/WorldMedQA/V); only the item text was given to the models.
