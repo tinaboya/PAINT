@@ -34,7 +34,7 @@ PAINT covers two kinds of medical text in the same four languages.
 The BRIDGE-Pain corpora are available from their providers: the open ones through
 [BRIDGE-Open](https://huggingface.co/datasets/YLab-Open/BRIDGE-Open) on Hugging Face, MIMIC-III
 through PhysioNet. With the corpora in hand you can regenerate the BRIDGE-Pain labels with the
-code here. The paper only reports aggregate statistics for them.
+code here.
 
 ## Repository contents
 
