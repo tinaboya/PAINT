@@ -36,6 +36,7 @@ DATASET_GT = {
     "Brazil": PROJECT_ROOT / "data" / "raw" / "WorldMedQA" / "Brazil.csv",
     "Japan":  PROJECT_ROOT / "data" / "raw" / "WorldMedQA" / "Japan_T.csv",
     "Spain":  PROJECT_ROOT / "data" / "raw" / "WorldMedQA" / "Spain.csv",
+    "UK":     PROJECT_ROOT / "data" / "raw" / "WorldMedQA" / "UK_T.csv",
 }
 
 # All model prediction CSVs live under model_outputs/<model>/ with the
@@ -159,12 +160,24 @@ def load_predictions(path: Path, fields: Tuple[str, ...]) -> List[Dict[str, Any]
     return out
 
 
+def _gt_bool(raw: Any) -> Optional[bool]:
+    """Parse a physician gold label. Brazil/Japan/Spain use Y/N, UK uses
+    Yes/No; anything else is an unlabelled row and becomes None so that it
+    is skipped in scoring rather than silently counted as negative."""
+    v = (raw or "").strip().upper()
+    if v in ("Y", "YES"):
+        return True
+    if v in ("N", "NO"):
+        return False
+    return None
+
+
 def load_ground_truth(dataset: str) -> List[Dict[str, Optional[bool]]]:
     """Load WorldMedQA pain GT by row position. No demographic GT available."""
     rows = _read_csv(DATASET_GT[dataset])
     return [{
-        "pain_related":  row.get("pain_related (Y/N)", "").strip().upper() == "Y",
-        "pain_presence": row.get("pain_presence(Y/N)", "").strip().upper() == "Y",
+        "pain_related":  _gt_bool(row.get("pain_related (Y/N)")),
+        "pain_presence": _gt_bool(row.get("pain_presence(Y/N)")),
     } for row in rows]
 
 
@@ -200,7 +213,7 @@ def _binary_metrics(preds: List[Optional[bool]], labels: List[bool]) -> Dict[str
     """
     tp = fp = tn = fn = skipped = 0
     for p, gt in zip(preds, labels):
-        if p is None:
+        if p is None or gt is None:
             skipped += 1
             continue
         if p and gt:
@@ -576,9 +589,9 @@ def main() -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("--dataset", "-d", choices=list(DATASET_GT),
-                        help="Single dataset to evaluate (Brazil, Japan, or Spain)")
+                        help="Single dataset to evaluate (Brazil, Japan, Spain, or UK)")
     parser.add_argument("--all", "-a", action="store_true",
-                        help="Run on all three datasets")
+                        help="Run on all datasets")
     parser.add_argument("--pain-models", nargs="+", default=list(DEFAULT_PAIN_MODELS),
                         help=(f"Subset of pain models to ensemble. "
                               f"Default: {list(DEFAULT_PAIN_MODELS)}. "

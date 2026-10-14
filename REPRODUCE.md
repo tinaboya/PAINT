@@ -5,9 +5,8 @@ inference (needs a CUDA GPU + the `PAINT-open-source-models/requirements.txt`
 dependencies), and **Stages 1–4** evaluate and analyse the outputs using only
 the Python 3.9+ standard library — no `pip install`.
 
-> The GPT-5 reference and Gemini baseline numbers in the paper were produced
-> through hosted APIs; that calling code is not part of this repository. Every
-> *open-weight* number (Table 3, §4.3, §5) is reproducible from here.
+> The GPT-5 reference numbers in the paper were produced through a hosted
+> API. Every *open-weight* number (Table 3, §4.3, §5) is reproducible from here.
 
 Run the stages in order from the repository root. Stages 1–4 assume
 `model_outputs/` (from Stage 0) and `data/raw/WorldMedQA/` are present; neither
@@ -124,18 +123,29 @@ bias statistics, and runs the BRIDGE pilot analysis.
 ## Notes
 
 - **Ground truth.** `data/raw/WorldMedQA/{Brazil,Japan,Spain,UK_T}.csv`
-  carry the physician-validated pain labels and are committed to the repo.
-  Brazil/Japan/Spain use `Y/N` labels; UK uses `Yes/No` — the loaders
-  handle both.
+  carry the clinician-annotated pain labels used as ground truth in the
+  paper. They are **not** part of this release (held for a subsequent
+  version, as stated in the paper), so Stages 2–4 cannot be run from the
+  public repository yet; Stage 3's label building
+  (`src/paint/build_wmqa_labels.py`) and the clinician-validation scripts
+  need no ground-truth file. Brazil/Japan/Spain use `Y/N` labels; UK uses
+  `Yes/No` — the loaders handle both.
 - **Row alignment.** Model CSVs and ground truth are aligned by row
   position, not by `Question_ID` (the per-model ID schemes differ). All
   files in a partition share the same row count (Brazil 904, Japan 742,
-  Spain 1049, UK 268).
+  Spain 1049, UK 268). The released `data/WorldMedQA-Pain/` files carry
+  this position as `row_index`, the same `row_index` used in
+  `annotation/completed_sheets/`.
 - **Demographic ensemble.** Only the three ensemble models
   (Gemma4-e4b, Qwen3-8B, DeepSeek-R1-Qwen-32B) carry demographic CSVs.
-  `analysis.py` keeps a field's value only when all three agree on the
-  normalised value (see the `GENDER_MAP` / `ETHNICITY_MAP` /
-  `parse_age` helpers in `src/paint/analysis.py`).
+  As in the paper, `analysis.py` applies a 2-of-3 majority over non-null
+  normalised values: a value is kept when at least two models agree, a
+  value from a single model is kept when no other model contradicts it,
+  and an unresolved disagreement leaves the field missing
+  (`_ensemble_demo`). Anatomical location and pain descriptors are lists
+  merged item by item under the same 2-of-3 rule (`_ensemble_pain_aux`).
+  Only the two pain fields use the strict all-same rule. Normalisation
+  helpers: `parse_age`, `normalize_gender` in `src/paint/analysis.py`.
 - **Metrics.** Binary F1 is the positive-class F1 (scikit-learn
   `average='binary'` default); macro F1 averages the positive and
   negative class F1 (`average='macro'`). Both are stored in the run JSON.

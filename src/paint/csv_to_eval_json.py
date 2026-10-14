@@ -3,7 +3,7 @@
 Convert CSV-format model predictions into the JSON schema consumed by
 `paint.extraction_evaluation` so that all open-weight models (Gemma4,
 Qwen3, DeepSeek) are evaluated with the same canonical evaluator used for
-the GPT5 / Gemini runs in `outputs/runs/`.
+the GPT5 runs in `outputs/runs/`.
 
 Alignment: row position (all WorldMedQA + open-weight CSVs already line up:
 Brazil 904 / Japan 742 / Spain 1049).

@@ -73,19 +73,16 @@ GENDER_MAP = {
     "女": "female", "女性": "female", "女子": "female", "女児": "female", "少女": "female",
 }
 
-ETHNICITY_MAP = {
-    # PT (Brazilian skin-color categories)
-    "branca": "white", "branco": "white", "white": "white", "blanca": "white", "blanco": "white",
-    "parda": "mixed", "pardo": "mixed", "mestiza": "mixed", "mestizo": "mixed", "mulato": "mixed", "mulata": "mixed",
-    "preta": "black", "preto": "black", "negra": "black", "negro": "black", "black": "black", "afro": "black",
-    "amarela": "asian", "amarelo": "asian", "asiática": "asian", "asiatica": "asian", "asian": "asian",
-    "indígena": "indigenous", "indigena": "indigenous", "índia": "indigenous", "india": "indigenous",
-    # JA
-    "日本人": "asian", "アジア人": "asian",
-    # ES generic
-    "hispana": "hispanic", "hispano": "hispanic", "hispanic": "hispanic", "latina": "hispanic", "latino": "hispanic",
-    "caucásica": "white", "caucásico": "white", "caucasian": "white",
-}
+# Ethnicity is preserved as free text. Strings that state the field is
+# unknown / not recorded are treated as null. No category mapping is applied:
+# ethnicity categories are not comparable across countries, and the field is
+# neither clinician-validated nor released as an aggregated label.
+_ETHNICITY_NULL = re.compile(
+    r"^(none|null|n/?a|nan|unknown.*|not (stated|mentioned|specified|recorded|reported|available)"
+    r"|unspecified|other|patient declined.*|declined.*|sem informa[c\u00e7][a\u00e3]o"
+    r"|n[a\u00e3]o informad[oa]|desconhecid[oa]|no consta|no especificad[oa]"
+    r"|\u4e0d\u660e|\u4e0d\u8a73|\u8a18\u8f09\u306a\u3057)$"
+)
 
 
 _INT_RE = re.compile(r"-?\d+")
@@ -134,17 +131,26 @@ def normalize_gender(raw: Any) -> Optional[str]:
 
 
 def normalize_ethnicity(raw: Any) -> Optional[str]:
+    """Free-text ethnicity: case-folded, whitespace/punctuation-trimmed;
+    'unknown / not recorded' strings -> None."""
     if not raw:
         return None
-    s = str(raw).strip().lower()
-    if not s or s in {"none", "null", "n/a", "na", "nan", "unknown"}:
+    s = re.sub(r"\s+", " ", str(raw).strip().lower()).strip(" .,;:")
+    s = s.replace("\u00e2\u20ac\u201c", "-")  # mojibake en-dash seen in some outputs
+    if not s or _ETHNICITY_NULL.match(s):
         return None
-    if s in ETHNICITY_MAP:
-        return ETHNICITY_MAP[s]
-    for tok in re.split(r"[\s,/\-]+", s):
-        if tok in ETHNICITY_MAP:
-            return ETHNICITY_MAP[tok]
-    return None
+    return s
+
+
+def _ethnicity_vote_key(s: str) -> str:
+    """Comparison key for voting on free-text ethnicity: strip accents and
+    Portuguese/Spanish gender inflection (branca/branco, parda/pardo)."""
+    import unicodedata
+    k = unicodedata.normalize("NFKD", s)
+    k = "".join(ch for ch in k if not unicodedata.combining(ch))
+    k = re.sub(r"/[oa]s?$", "", k)
+    k = re.sub(r"[oa]s?$", "", k)
+    return k
 
 
 SEVERITY_MAP = {
@@ -384,8 +390,8 @@ def _ensemble_demo(per_model: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
     For each field, look at all non-null model extractions:
       * 0 non-null   → None  (no model saw the field; nothing to use)
       * 1 non-null   → that value (single-model extraction; we trust it)
-      * 2+ non-null  → most common value (majority); ties broken by first
-                       extraction in deterministic model-name order
+      * 2+ non-null  → the value extracted by at least two models; if no
+                       value reaches two (2-way or 3-way disagreement) → None
 
     Rationale: source text for many fields is sparse (e.g. ethnicity often
     not mentioned), and individual models have language-specific recall
@@ -406,8 +412,10 @@ def _ensemble_demo(per_model: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
         elif len(vals) == 1:
             out[f] = vals[0]                     # case 2: single extractor
         else:
-            c = Counter(vals)
-            top_val, top_count = c.most_common(1)[0]
+            keyf = _ethnicity_vote_key if f == "ethnicity" else (lambda v: v)
+            c = Counter(keyf(v) for v in vals)
+            top_key, top_count = c.most_common(1)[0]
+            top_val = next(v for v in vals if keyf(v) == top_key)
             # case 3: at least 2 models extracted the same value → consensus
             # case 4: ties at top_count=1 (2-disagree or 3-distinct) → abstain
             # Avoids the silent "first-listed model wins" bias from Counter
