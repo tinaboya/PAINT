@@ -108,8 +108,7 @@ These run on a fresh clone with nothing installed. CI runs them on Python 3.9 an
 The evaluation scripts (`csv_to_eval_json.py`, `extraction_evaluation.py`, `ensemble.py`,
 `analysis.py`) score the models against the clinician gold labels in `data/raw/WorldMedQA/`,
 which we have not released yet, so they will not run from this repo for now. Inference
-(`PAINT-open-source-models/`) needs a CUDA GPU and vLLM; see the README there. GPT-5 was run
-through a hosted API.
+(`PAINT-open-source-models/`) needs a CUDA GPU and vLLM. GPT-5 was run through a hosted API.
 
 [`REPRODUCE.md`](REPRODUCE.md) lists which command produces which number in the paper.
 
