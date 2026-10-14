@@ -110,8 +110,6 @@ The evaluation scripts (`csv_to_eval_json.py`, `extraction_evaluation.py`, `ense
 which we have not released yet, so they will not run from this repo for now. Inference
 (`PAINT-open-source-models/`) needs a CUDA GPU and vLLM. GPT-5 was run through a hosted API.
 
-[`REPRODUCE.md`](REPRODUCE.md) lists which command produces which number in the paper.
-
 ## Models
 
 | Model | Role |
