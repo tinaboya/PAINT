@@ -82,17 +82,25 @@ pain related `True`, pain presence `True`, location `hipocôndrio direito; ombro
 
 ## Label statistics
 
-| Partition | Items | Both pain fields resolved | Pain presence | Pain location | Age | Gender | Ethnicity | Occupation |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| UK PLAB (en) | 268 | 244 (91.0%) | 90 (33.6%) | 88 (32.8%) | 95.5% | 98.4% | 0.8% | 2.0% |
-| Spain MIR (es) | 1,049 | 969 (92.4%) | 136 (13.0%) | 124 (11.8%) | 44.3% | 42.6% | 0.4% | 2.0% |
-| Japan NLE (ja) | 742 | 689 (92.9%) | 112 (15.1%) | 109 (14.7%) | 49.8% | 49.9% | 0.6% | 5.2% |
-| Brazil REVALIDA (pt) | 904 | 804 (88.9%) | 271 (30.0%) | 251 (27.8%) | 83.1% | 84.6% | 1.9% | 9.0% |
+```mermaid
+xychart-beta
+    title "Items with pain presence, % of each partition"
+    x-axis ["UK PLAB", "Spain MIR", "Japan NLE", "Brazil REVALIDA"]
+    y-axis "%" 0 --> 40
+    bar [33.6, 13.0, 15.1, 30.0]
+```
 
-Pain presence and location are shares of all items (location counts items with pain presence and
-a non-empty location). The demographic columns are coverage among the items where both pain
-fields are resolved. The partitions are different exams written for different purposes, so do not
-read these as prevalence.
+```mermaid
+xychart-beta horizontal
+    title "Demographic coverage, % of items where both pain fields are resolved"
+    x-axis ["UK age", "UK gender", "UK ethnicity", "UK occupation", "Spain age", "Spain gender", "Spain ethnicity", "Spain occupation", "Japan age", "Japan gender", "Japan ethnicity", "Japan occupation", "Brazil age", "Brazil gender", "Brazil ethnicity", "Brazil occupation"]
+    y-axis "%" 0 --> 100
+    bar [95.5, 98.4, 0.8, 2.0, 44.3, 42.6, 0.4, 2.0, 49.8, 49.9, 0.6, 5.2, 83.1, 84.6, 1.9, 9.0]
+```
+
+The three models agree on both pain fields for 89 to 93% of the items in each partition; the
+rest is `abstain`. `build_wmqa_labels.py` prints the exact counts. The partitions are different
+exams written for different purposes, so do not read these as prevalence.
 
 ## Running the code
 
