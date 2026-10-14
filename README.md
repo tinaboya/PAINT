@@ -10,9 +10,7 @@
 </p>
 
 PAINT extracts pain and demographic attributes from medical licensing exam questions (WorldMedQA)
-and from clinical notes (BRIDGE) in English, Spanish, Portuguese and Japanese. Three open-weight
-models (Gemma-4-E4B, Qwen3-8B, DeepSeek-R1-Distill-Qwen-32B) label every record, and a pain label
-is only kept when all three agree. Clinicians in each language checked the result.
+and from clinical notes (BRIDGE) in English, Spanish, Portuguese and Japanese.
 
 Paper: [PAINT: A Framework for Multilingual Pain Representation from Medical Licensing Exams to
 Real-World Clinical Texts](https://arxiv.org/abs/2610.18269), 6th Workshop on Multilingual
