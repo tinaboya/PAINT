@@ -34,19 +34,7 @@ The BRIDGE-Pain corpora are available from their providers: the open ones throug
 through PhysioNet. With the corpora in hand you can regenerate the BRIDGE-Pain labels with the
 code here.
 
-## Repository contents
-
-- `data/WorldMedQA-Pain/`: one CSV per partition with the question text and the ensemble labels,
-  plus a dataset card. `load_dataset("tinaboya/WorldMedQA-Pain")` gives the same files as the
-  splits `uk`, `spain`, `japan`, `brazil`.
-- `model_outputs/`: the raw extractions of six models, so the labels can be rebuilt or changed.
-- `annotation/completed_sheets/`: the sheets our clinicians returned, for the corpora we may share
-  (the four WorldMedQA partitions, Cantemist, IFMIR), with the source text removed. Sheets for
-  MIMIC-III, MEDIQA and Brateca are available on request to people who hold those corpora.
-- `prompts/` and `PAINT-open-source-models/`: the prompts and the vLLM inference code.
-- `src/paint/`: label building, evaluation and analysis. Standard library only.
-
-## Data format
+### Format
 
 Each row of `data/WorldMedQA-Pain/<Partition>.csv` is one exam question.
 
@@ -82,7 +70,7 @@ Example, Brazil row 0:
 pain related `True`, pain presence `True`, location `hipocôndrio direito; ombro direito`, type
 `cólica`, severity empty, age `54`, gender `female`, ethnicity and occupation empty.
 
-## Label statistics
+### Statistics
 
 <a href="https://raw.githubusercontent.com/tinaboya/PAINT/main/assets/label_stats.svg">
 <picture>
@@ -90,6 +78,18 @@ pain related `True`, pain presence `True`, location `hipocôndrio direito; ombro
   <img src="assets/label_stats.svg" alt="Grouped bar chart of pain presence and demographic coverage for the four WorldMedQA-Pain partitions and the five BRIDGE-Pain partitions" width="960">
 </picture>
 </a>
+
+## Repository contents
+
+- `data/WorldMedQA-Pain/`: one CSV per partition with the question text and the ensemble labels,
+  plus a dataset card. `load_dataset("tinaboya/WorldMedQA-Pain")` gives the same files as the
+  splits `uk`, `spain`, `japan`, `brazil`.
+- `model_outputs/`: the raw extractions of six models, so the labels can be rebuilt or changed.
+- `annotation/completed_sheets/`: the sheets our clinicians returned, for the corpora we may share
+  (the four WorldMedQA partitions, Cantemist, IFMIR), with the source text removed. Sheets for
+  MIMIC-III, MEDIQA and Brateca are available on request to people who hold those corpora.
+- `prompts/` and `PAINT-open-source-models/`: the prompts and the vLLM inference code.
+- `src/paint/`: label building, evaluation and analysis. Standard library only.
 
 ## Running the code
 
