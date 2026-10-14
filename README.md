@@ -82,7 +82,8 @@ pain related `True`, pain presence `True`, location `hipocôndrio direito; ombro
 
 ## Label statistics
 
-Printed by `build_wmqa_labels.py`. Same as Tables 6 and 7 in the paper, up to rounding.
+`build_wmqa_labels.py` prints these numbers when it rebuilds the labels. They correspond to Tables 6
+and 7 in the paper.
 
 | Partition | Items | Both pain fields resolved | Pain presence | Pain location | Age | Gender | Ethnicity | Occupation |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
