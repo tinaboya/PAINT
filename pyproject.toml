@@ -6,7 +6,11 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [
-    { name = "PAINT Team" }
+    { name = "Boya Zhang" },
+    { name = "Yuanchao Ma" },
+    { name = "Jiageng Wu" },
+    { name = "Douglas Teodoro" },
+    { name = "Leo Anthony Celi" },
 ]
 keywords = ["medical", "nlp", "pain-extraction", "multilingual", "evaluation"]
 classifiers = [

@@ -162,3 +162,5 @@ paper/*.out
 paper/*.bbl
 paper/*.blg
 paper/acl-style-files-master/
+# analysis outputs written by src/paint scripts
+outputs/

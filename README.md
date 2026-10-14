@@ -6,6 +6,7 @@
 
 <p align="center">
   <a href="https://arxiv.org/abs/2610.18269"><img src="https://img.shields.io/badge/arXiv-2610.18269-b31b1b" alt="arXiv"></a>
+  <a href="https://github.com/tinaboya/PAINT/actions/workflows/check.yml"><img src="https://github.com/tinaboya/PAINT/actions/workflows/check.yml/badge.svg" alt="check"></a>
   <img src="https://img.shields.io/badge/python-3.9%2B-blue" alt="Python 3.9+">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
   <img src="https://img.shields.io/badge/languages-EN%20%C2%B7%20ES%20%C2%B7%20PT%20%C2%B7%20JA-orange" alt="Languages">
@@ -23,7 +24,17 @@
   Accepted at the 6th Workshop on Multilingual Representation Learning (MRL 2026), EMNLP 2026, Budapest
 </p>
 
+<p align="center"><img src="assets/overview.png" alt="PAINT overview" width="760"></p>
+<p align="center"><i>Medical licensing examinations and clinical text in four languages, annotated with an ensemble of open-weight language models and validated by clinicians.</i></p>
+
 ---
+
+## News
+
+- **2026-10-14** — WorldMedQA-Pain release with ensemble labels for every annotated field (`data/WorldMedQA-Pain/`).
+- **2026-10-13** — Preprint on arXiv: [2610.18269](https://arxiv.org/abs/2610.18269).
+- **2026-09** — Paper accepted at the 6th Workshop on Multilingual Representation Learning (MRL 2026), EMNLP 2026, Budapest.
+- **Coming** — clinician gold labels for all WorldMedQA-Pain items.
 
 ## Why PAINT?
 
@@ -84,7 +95,50 @@ ensemble outputs that were not clinician-validated, and ethnicity categories are
 across countries. The unused WorldMedQA columns (answer options, correct answer, specialty, year)
 are not carried; they are available from the WorldMedQA source.
 
+### Example record
+
+`data/WorldMedQA-Pain/Brazil.csv`, `row_index` 0 (REVALIDA 2011, item 1):
+
+| Field | Value |
+|---|---|
+| `Question` | *Mulher com 54 anos de idade, Índice de Massa Corpórea (IMC) = 32,6, portadora de diabetes tipo 2, … comparece à Unidade Básica de Saúde com queixa de dor, do tipo cólica, em hipocôndrio direito, que se irradia para o ombro direito e piora após ingestão de alimentos, especialmente gordurosos. …* |
+| `Question_EN` | *A 54-year-old woman, with a Body Mass Index (BMI) of 32.6, with type 2 diabetes, … complaining of cramping pain in the right hypochondrium, which radiates to the right shoulder and worsens after eating, especially fatty foods. …* |
+| `ensemble_pain_related` / `ensemble_pain_presence` | `True` / `True` |
+| `ensemble_location` | `hipocôndrio direito; ombro direito` |
+| `ensemble_pain_type` | `cólica` |
+| `ensemble_severity` | empty (no model extracted a severity) |
+| `ensemble_age` / `ensemble_gender` | `54` / `female` |
+| `ensemble_ethnicity` / `ensemble_occupation` | empty |
+
+### Statistics per partition
+
+Printed by `python3 src/paint/build_wmqa_labels.py`; they match Tables 6 and 7 of the paper up to rounding.
+
+| Partition | Items | Both pain fields resolved | Pain presence | Pain location | Age | Gender | Ethnicity | Occupation |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| UK PLAB (en) | 268 | 244 (91.0%) | 90 (33.6%) | 88 (32.8%) | 95.5% | 98.4% | 0.8% | 2.0% |
+| Spain MIR (es) | 1,049 | 969 (92.4%) | 136 (13.0%) | 124 (11.8%) | 44.3% | 42.6% | 0.4% | 2.0% |
+| Japan NLE (ja) | 742 | 689 (92.9%) | 112 (15.1%) | 109 (14.7%) | 49.8% | 49.9% | 0.6% | 5.2% |
+| Brazil REVALIDA (pt) | 904 | 804 (88.9%) | 271 (30.0%) | 251 (27.8%) | 83.1% | 84.6% | 1.9% | 9.0% |
+
+Pain presence and pain location are shares of all items (location: pain-presence-positive items
+with a non-empty location). The demographic columns are coverage within the items where both pain
+fields are resolved. These distributions characterise each examination corpus and are not
+prevalence estimates.
+
 ## Quickstart
+
+### What runs on a fresh clone
+
+| Command | Needs | Produces |
+|---|---|---|
+| `python3 src/paint/build_wmqa_labels.py [--check]` | nothing beyond the repository | `data/WorldMedQA-Pain/`, or a zero-difference check |
+| `python3 src/paint/clinician_validation.py` | nothing | the clinician validation tables, from `annotation/completed_sheets/` |
+| `python3 src/paint/inter_annotator_agreement.py` | nothing | Cohen's kappa and % agreement on the double-annotated overlaps |
+| `python3 src/paint/kappa_transparency.py` | nothing | the kappa interpretation note |
+| `python3 -m unittest discover -s tests` | nothing | the unit tests (also run by CI) |
+| `csv_to_eval_json.py`, `extraction_evaluation.py`, `ensemble.py`, `analysis.py` | the clinician gold labels in `data/raw/WorldMedQA/`, held for a subsequent version | per-model F1, the ensemble comparison, the analysis tables |
+| `PAINT-open-source-models/run_inference*.py` | a CUDA GPU with vLLM, and your own copy of the BRIDGE corpora | `model_outputs/` |
 
 **Rebuild the WorldMedQA-Pain labels** (no dependencies, standard library only):
 
@@ -102,7 +156,7 @@ cells.
 ```bash
 pip install -r requirements.txt
 python run_inference.py                                      # WorldMedQA, 5 open-weight models
-python run_inference_bridge.py --input ../data/raw/BRIDGE.example.all.json
+python run_inference_bridge.py --input <your BRIDGE export .json>      # BRIDGE, not included here
 python parse_bridge.py                                       # → model_outputs/
 ```
 
@@ -147,6 +201,32 @@ Age is normalised to years and gender to male/female with a cross-lingual dictio
 and occupation stay free text. All of this is implemented in `src/paint/analysis.py`
 (`_ensemble_demo`, `_ensemble_pain_aux`).
 
+## Use and limitations
+
+**Intended use.** PAINT supports multilingual clinical NLP research, information extraction, and
+fairness auditing. It is not intended for clinical diagnosis, treatment recommendation, or
+automated triage.
+
+**What the labels are.** Pain as documented by clinicians and examination writers, not as reported
+by patients; no source corpus carries numeric pain scores. Demographic values are model
+extractions aggregated by majority, not verified facts about a person. Location, descriptors,
+severity and ethnicity were not clinician-validated, and ethnicity categories are not comparable
+across countries. Field definitions and the supporting literature are in
+[`pain_definition.md`](pain_definition.md); the validation protocol is in
+[`annotation/README.md`](annotation/README.md).
+
+**Comparability.** Corpus purpose, language, country and healthcare system co-vary across
+partitions, so label distributions characterise each corpus rather than estimate prevalence.
+Differences between partitions are corpus effects, not claims about pain experience across
+cultures. The English partitions are not country-matched (UK PLAB versus US clinical corpora),
+and both Portuguese partitions are Brazilian.
+
+**Data governance.** WorldMedQA contains no patient-identifiable information. The annotation
+study was granted IRB exemption by MIT, and the ten annotators (nine physicians and one
+pharmacist) are co-authors. No clinical source text is redistributed; the released clinician
+sheets have the source-text column removed. The MIT license covers the code and the
+WorldMedQA-Pain labels, not the upstream clinical corpora, which stay under their own agreements.
+
 ## Repository layout
 
 ```
@@ -160,7 +240,29 @@ PAINT-open-source-models/ open-weight model inference (vLLM), WorldMedQA + BRIDG
 prompts/                  pain + demographic extraction prompts (EN/ES/PT/JA)
 annotation/               scripts that build the clinician annotation sheets
   completed_sheets/       returned sheets, public corpora only (source text removed)
+tests/                    unit tests for the label builder (run by .github/workflows/check.yml)
 ```
+
+**Documentation:** [`REPRODUCE.md`](REPRODUCE.md) (which command produces which paper number),
+[`pain_definition.md`](pain_definition.md) (field definitions and literature),
+[`annotation/README.md`](annotation/README.md) (clinician validation protocol),
+[`prompts/README.md`](prompts/README.md), [`model_outputs/README.md`](model_outputs/README.md),
+[`data/WorldMedQA-Pain/README.md`](data/WorldMedQA-Pain/README.md) (dataset card).
+
+## Contributing
+
+Issues and pull requests are welcome. To add a language or a corpus: translate the two prompts
+(see [`prompts/README.md`](prompts/README.md)) keeping the JSON schema, extend the pain lexicon in
+[`pain_definition.md`](pain_definition.md), run the three ensemble members with
+`PAINT-open-source-models/`, and validate a stratified sample with a clinician using
+`annotation/build_annotation_sheets.py`. Contributions must respect the data-use agreement of the
+source corpus; do not submit clinical source text to this repository.
+
+## Contact
+
+Boya Zhang (University of Geneva), Yuanchao Ma (McGill University) and Jiageng Wu (Harvard
+Medical School) are the co-first authors; Douglas Teodoro (University of Geneva) and Leo Anthony
+Celi (MIT) supervised the project. Please use GitHub issues for questions about the data and code.
 
 ## Citation
 
