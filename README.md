@@ -20,31 +20,33 @@ Representation Learning (MRL 2026) at EMNLP 2026, Budapest.
 
 <p align="center"><img src="assets/overview.png" alt="PAINT overview" width="760"></p>
 
-## What is here
+## Data
 
-| Corpus | Text | Languages | Records | Status |
-|---|---|---|---:|---|
-| WorldMedQA-Pain | licensing exam questions | en, es, pt, ja | 2,963 | in this repo, with labels |
-| BRIDGE-Pain | clinical notes | en, es, pt, ja | 17,795 | get the corpora from their providers, then run the pipeline |
+PAINT covers two kinds of medical text in the same four languages.
 
-WorldMedQA-Pain has four partitions: UK PLAB (268), Spain MIR (1,049), Japan NLE (742) and
-Brazil REVALIDA (904).
+| | WorldMedQA-Pain | BRIDGE-Pain |
+|---|---|---|
+| Source | medical licensing exams ([WorldMedQA](https://github.com/WorldMedQA/V)) | clinical notes ([BRIDGE](https://github.com/YLab-Open/BRIDGE)) |
+| Partitions | UK PLAB (en, 268), Spain MIR (es, 1,049), Japan NLE (ja, 742), Brazil REVALIDA (pt, 904) | MEDIQA (en), MIMIC-III (en), Cantemist (es), Brateca (pt), IFMIR (ja) |
+| Records | 2,963 | 17,795 |
+| In this repo | yes, with labels: `data/WorldMedQA-Pain/`, also on [Hugging Face](https://huggingface.co/datasets/tinaboya/WorldMedQA-Pain) | no, each corpus has its own data-use agreement |
 
-- `data/WorldMedQA-Pain/`: one CSV per partition with the question text and the ensemble labels.
-  There is a dataset card in the folder. The same files are on Hugging Face:
-  `load_dataset("tinaboya/WorldMedQA-Pain")` gives the splits `uk`, `spain`, `japan`, `brazil`.
+The BRIDGE-Pain corpora are available from their providers: the open ones through
+[BRIDGE-Open](https://huggingface.co/datasets/YLab-Open/BRIDGE-Open) on Hugging Face, MIMIC-III
+through PhysioNet. With the corpora in hand you can regenerate the BRIDGE-Pain labels with the
+code here. The paper only reports aggregate statistics for them.
+
+## Repository contents
+
+- `data/WorldMedQA-Pain/`: one CSV per partition with the question text and the ensemble labels,
+  plus a dataset card. `load_dataset("tinaboya/WorldMedQA-Pain")` gives the same files as the
+  splits `uk`, `spain`, `japan`, `brazil`.
 - `model_outputs/`: the raw extractions of six models, so the labels can be rebuilt or changed.
 - `annotation/completed_sheets/`: the sheets our clinicians returned, for the corpora we may share
   (the four WorldMedQA partitions, Cantemist, IFMIR), with the source text removed. Sheets for
   MIMIC-III, MEDIQA and Brateca are available on request to people who hold those corpora.
 - `prompts/` and `PAINT-open-source-models/`: the prompts and the vLLM inference code.
 - `src/paint/`: label building, evaluation and analysis. Standard library only.
-
-We do not redistribute the BRIDGE-Pain corpora (MEDIQA, MIMIC-III, Cantemist, Brateca, IFMIR);
-each has its own data-use agreement. The open ones are on Hugging Face as
-[BRIDGE-Open](https://huggingface.co/datasets/YLab-Open/BRIDGE-Open), MIMIC-III comes from
-PhysioNet. With the corpora in hand you can regenerate the BRIDGE-Pain labels with the code here.
-The paper only reports aggregate statistics for them.
 
 ## Data format
 
