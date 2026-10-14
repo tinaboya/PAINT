@@ -5,6 +5,7 @@
 <p align="center">
   <a href="https://arxiv.org/abs/2610.18269"><img src="https://img.shields.io/badge/arXiv-2610.18269-b31b1b" alt="arXiv"></a>
   <a href="https://github.com/tinaboya/PAINT/actions/workflows/check.yml"><img src="https://github.com/tinaboya/PAINT/actions/workflows/check.yml/badge.svg" alt="check"></a>
+  <a href="https://huggingface.co/datasets/tinaboya/WorldMedQA-Pain"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20dataset-WorldMedQA--Pain-yellow" alt="Dataset on Hugging Face"></a>
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
 </p>
 
@@ -21,6 +22,7 @@ Representation Learning (MRL 2026) at EMNLP 2026, Budapest.
 
 ## Updates
 
+- 2026-10-14: WorldMedQA-Pain is on Hugging Face as [tinaboya/WorldMedQA-Pain](https://huggingface.co/datasets/tinaboya/WorldMedQA-Pain).
 - 2026-10-14: the WorldMedQA-Pain files now carry labels for every annotated field.
 - 2026-10-13: preprint on arXiv.
 - 2026-09: paper accepted at MRL 2026.
@@ -37,7 +39,8 @@ WorldMedQA-Pain has four partitions: UK PLAB (268), Spain MIR (1,049), Japan NLE
 Brazil REVALIDA (904).
 
 - `data/WorldMedQA-Pain/`: one CSV per partition with the question text and the ensemble labels.
-  There is a dataset card in the folder.
+  There is a dataset card in the folder. The same files are on Hugging Face:
+  `load_dataset("tinaboya/WorldMedQA-Pain")` gives the splits `uk`, `spain`, `japan`, `brazil`.
 - `model_outputs/`: the raw extractions of six models, so the labels can be rebuilt or changed.
 - `annotation/completed_sheets/`: the sheets our clinicians returned, for the corpora we may share
   (the four WorldMedQA partitions, Cantemist, IFMIR), with the source text removed. Sheets for
