@@ -89,8 +89,6 @@ pain related `True`, pain presence `True`, location `hipocôndrio direito; ombro
 </picture>
 </a>
 
-Click the chart to open it; hovering a bar shows its value.
-
 ## Running the code
 
 ```bash
