@@ -9,7 +9,8 @@ three models agree on pain relevance and pain presence): the pain-presence
 rate and the coverage of the four demographic fields.
 
 Writes assets/label_stats.svg (light) and assets/label_stats_dark.svg (dark);
-the README embeds both with a <picture> element. Standard library only.
+the README embeds both with a <picture> element. Opened on its own, the SVG
+shows each bar's value on hover (CSS only, no script). Standard library only.
 
 Run:
     python3 src/paint/plot_label_stats.py
@@ -72,8 +73,8 @@ def bar_path(x: float, y_top: float, w: float, y_base: float, r: float = 4) -> s
 
 def render(panels, theme: dict) -> str:
     """panels: list of (title, [(label, language, [values])])."""
-    W, H = 960, 440
-    left, right, top, bottom = 44, 16, 100, 52
+    W, H = 960, 454
+    left, right, top, bottom = 44, 16, 114, 52  # top leaves room for hover labels above 100% bars
     panel_gap = 36
     ph = H - top - bottom
     y_base = top + ph
@@ -82,6 +83,7 @@ def render(panels, theme: dict) -> str:
     group_w = (W - left - right - panel_gap * (len(panels) - 1)) / n_groups
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" '
            f'aria-label="PAINT label statistics: pain presence and demographic coverage per partition">']
+    out.append('<style>.bar text{opacity:0;pointer-events:none}.bar:hover text{opacity:1}.bar:hover path{opacity:.8}</style>')
     out.append(f'<text x="{left}" y="22" {font} font-size="15" font-weight="600" fill="{theme["ink"]}">PAINT label statistics</text>')
     out.append(f'<text x="{left}" y="41" {font} font-size="12" fill="{theme["ink2"]}">Share of items where both pain fields are resolved. '
                f'WorldMedQA-Pain is computed from the released files; BRIDGE-Pain is Table 6 of the paper.</text>')
@@ -108,7 +110,8 @@ def render(panels, theme: dict) -> str:
                 v = values[j]
                 x = x0 + j * (bw + gap)
                 y_top = y_base - ph * v / 100
-                out.append(f'<path d="{bar_path(x, y_top, bw, y_base)}" fill="{color}"><title>{label} · {metric}: {v:.1f}%</title></path>')
+                out.append(f'<g class="bar"><path d="{bar_path(x, y_top, bw, y_base)}" fill="{color}"><title>{label} · {metric}: {v:.1f}%</title></path>'
+                           f'<text x="{x + bw / 2:.1f}" y="{y_top - 6:.1f}" {font} font-size="11" font-weight="600" text-anchor="middle" fill="{theme["ink"]}">{v:.1f}%</text></g>')
             cx = gx + group_w / 2
             out.append(f'<text x="{cx:.1f}" y="{y_base + 18}" {font} font-size="12" text-anchor="middle" fill="{theme["ink"]}">{label}</text>')
             out.append(f'<text x="{cx:.1f}" y="{y_base + 33}" {font} font-size="11" text-anchor="middle" fill="{theme["ink2"]}">{lang}</text>')

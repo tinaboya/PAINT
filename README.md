@@ -82,10 +82,14 @@ pain related `True`, pain presence `True`, location `hipocôndrio direito; ombro
 
 ## Label statistics
 
+<a href="https://raw.githubusercontent.com/tinaboya/PAINT/main/assets/label_stats.svg">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/label_stats_dark.svg">
   <img src="assets/label_stats.svg" alt="Grouped bar chart of pain presence and demographic coverage for the four WorldMedQA-Pain partitions and the five BRIDGE-Pain partitions" width="960">
 </picture>
+</a>
+
+Click the chart to open it; hovering a bar shows its value.
 
 ## Running the code
 
