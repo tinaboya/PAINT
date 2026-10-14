@@ -161,19 +161,6 @@ More detail: [`pain_definition.md`](pain_definition.md) (field definitions and t
 behind them), [`annotation/README.md`](annotation/README.md) (how the clinician validation was
 run), [`prompts/README.md`](prompts/README.md), [`model_outputs/README.md`](model_outputs/README.md).
 
-## Contributing
-
-Issues and pull requests are welcome. If you want to add a language: translate the two prompts
-(keep the JSON schema), add the pain terms to `pain_definition.md`, run the three ensemble models,
-and have a clinician check a sample with the sheets from `annotation/build_annotation_sheets.py`.
-Please do not put clinical text in this repository.
-
-## Contact
-
-Boya Zhang (University of Geneva), Yuanchao Ma (McGill University) and Jiageng Wu (Harvard
-Medical School) are the co-first authors; Douglas Teodoro (University of Geneva) and Leo Anthony
-Celi (MIT) supervised the work. Open an issue for questions about the data or code.
-
 ## Citation
 
 ```bibtex
