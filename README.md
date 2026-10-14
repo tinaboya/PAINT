@@ -121,11 +121,11 @@ through a hosted API.
 
 | Model | Role |
 |---|---|
-| Gemma-4-E4B (4B) | ensemble member |
-| Qwen3-8B (8B) | ensemble member |
-| DeepSeek-R1-Distill-Qwen-32B (32B) | ensemble member |
-| GPT-5 | closed-source reference |
-| LLaMA-3.1-8B, MedGemma-4B | baselines we did not select |
+| [Gemma-4-E4B](https://huggingface.co/google/gemma-4-E4B) (4B) | ensemble member |
+| [Qwen3-8B](https://huggingface.co/Qwen/Qwen3-8B) (8B) | ensemble member |
+| [DeepSeek-R1-Distill-Qwen-32B](https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-32B) (32B) | ensemble member |
+| [GPT-5](https://platform.openai.com/docs/models/gpt-5) | closed-source reference |
+| [LLaMA-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct), [MedGemma-4B](https://huggingface.co/google/medgemma-4b-it) | baselines we did not select |
 
 The aggregation code is in `src/paint/analysis.py` (`_ensemble_demo`, `_ensemble_pain_aux`). Age
 is normalised to years and gender to male/female with a small cross-lingual dictionary; ethnicity
