@@ -87,29 +87,6 @@ pain related `True`, pain presence `True`, location `hipocôndrio direito; ombro
   <img src="assets/label_stats.svg" alt="Grouped bar chart of pain presence and demographic coverage for the four WorldMedQA-Pain partitions and the five BRIDGE-Pain partitions" width="960">
 </picture>
 
-<details>
-<summary>Numbers behind the chart</summary>
-
-Percentages are shares of the items where both pain fields are resolved. The BRIDGE-Pain rows are
-Table 6 of the paper; those labels are not redistributed here.
-
-| Partition | Language | Items | Both pain fields resolved | Pain presence | Age | Gender | Ethnicity | Occupation |
-|---|---|---:|---:|---:|---:|---:|---:|---:|
-| UK PLAB | en | 268 | 244 (91.0%) | 36.9% | 95.5% | 98.4% | 0.8% | 2.0% |
-| Spain MIR | es | 1,049 | 969 (92.4%) | 14.0% | 44.3% | 42.6% | 0.4% | 2.0% |
-| Japan NLE | ja | 742 | 689 (92.9%) | 16.3% | 49.8% | 49.9% | 0.6% | 5.2% |
-| Brazil REVALIDA | pt | 904 | 804 (88.9%) | 33.7% | 83.1% | 84.6% | 1.9% | 9.0% |
-| MEDIQA | en | 1,501 | 1,402 (93.4%) | 20.4% | 14.1% | 40.2% | 3.0% | 7.1% |
-| MIMIC-III | en | 5,000 | 3,993 (79.9%) | 63.7% | 87.0% | 100.0% | 89.6% | 41.5% |
-| Cantemist | es | 1,294 | 1,091 (84.3%) | 67.8% | 95.6% | 98.6% | 1.9% | 14.9% |
-| IFMIR | ja | 5,000 | 4,744 (94.9%) | 8.2% | 7.5% | 4.2% | 0.0% | 3.2% |
-| Brateca | pt | 5,000 | 3,411 (68.2%) | 70.1% | 99.8% | 99.9% | 73.8% | 7.9% |
-
-</details>
-
-`src/paint/plot_label_stats.py` draws the chart. The partitions are different corpora written for
-different purposes, so do not read these as prevalence.
-
 ## Running the code
 
 ```bash
