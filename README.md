@@ -20,14 +20,6 @@ Representation Learning (MRL 2026) at EMNLP 2026, Budapest.
 
 <p align="center"><img src="assets/overview.png" alt="PAINT overview" width="760"></p>
 
-## Updates
-
-- 2026-10-14: WorldMedQA-Pain is on Hugging Face as [tinaboya/WorldMedQA-Pain](https://huggingface.co/datasets/tinaboya/WorldMedQA-Pain).
-- 2026-10-14: the WorldMedQA-Pain files now carry labels for every annotated field.
-- 2026-10-13: preprint on arXiv.
-- 2026-09: paper accepted at MRL 2026.
-- Clinician gold labels for all WorldMedQA-Pain items will follow in a later version.
-
 ## What is here
 
 | Corpus | Text | Languages | Records | Status |
