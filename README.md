@@ -25,7 +25,7 @@ PAINT covers two kinds of medical text in the same four languages.
 | | WorldMedQA-Pain | BRIDGE-Pain |
 |---|---|---|
 | Source | medical licensing exams ([WorldMedQA](https://github.com/WorldMedQA/V)) | clinical notes ([BRIDGE](https://github.com/YLab-Open/BRIDGE)) |
-| Partitions | UK PLAB (en, 268), Spain MIR (es, 1,049), Japan NLE (ja, 742), Brazil REVALIDA (pt, 904) | MEDIQA (en), MIMIC-III (en), Cantemist (es), Brateca (pt), IFMIR (ja) |
+| Partitions | UK PLAB (en, 268), Spain MIR (es, 1,049), Japan NLE (ja, 742), Brazil REVALIDA (pt, 904) | MEDIQA (en, 1,501), MIMIC-III (en, 5,000), Cantemist (es, 1,294), IFMIR (ja, 5,000), Brateca (pt, 5,000) |
 | Records | 2,963 | 17,795 |
 | In this repo | yes, with labels: `data/WorldMedQA-Pain/`, also on [Hugging Face](https://huggingface.co/datasets/tinaboya/WorldMedQA-Pain) | no, each corpus has its own data-use agreement |
 
