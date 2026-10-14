@@ -58,14 +58,10 @@ Each row of `data/WorldMedQA-Pain/<Partition>.csv` is one exam question.
 | `Question_EN` | English translation from WorldMedQA. For UK it is the same as `Question`. |
 | `ensemble_pain_related`, `ensemble_pain_presence` | `True`, `False`, or `abstain` when the three models disagree |
 | `ensemble_location`, `ensemble_pain_type` | items listed by at least two models, separated by `; `, in the original language |
-| `ensemble_severity` | `mild`, `moderate` or `severe` |
-| `ensemble_age`, `ensemble_gender`, `ensemble_ethnicity`, `ensemble_occupation` | age in years, gender `male`/`female`, ethnicity and occupation as free text |
+| `ensemble_severity` | `mild`, `moderate` or `severe`, majority of the models |
+| `ensemble_age`, `ensemble_gender`, `ensemble_ethnicity`, `ensemble_occupation` | age in years, gender `male`/`female`, ethnicity and occupation as free text; majority of the models |
 
-The two pain fields need all three models to agree. For the list fields an item is kept when two
-models list it (if only one model returned anything, its list is kept). The remaining fields take
-the majority of the non-empty predictions, and a value from a single model is kept when nobody
-contradicts it. In those fields an empty cell means no model extracted anything and `abstain`
-means they disagreed.
+In the last three rows, an empty cell means no model extracted anything and `abstain` means the models disagreed.
 
 Clinicians checked pain relevance, pain presence, age, gender and occupation. Location,
 descriptors, severity and ethnicity were not checked, and ethnicity categories mean different
