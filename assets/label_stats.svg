@@ -12,7 +12,7 @@
 <text x="318" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#52514e">Ethnicity</text>
 <rect x="401" y="53" width="10" height="10" rx="2" fill="#e87ba4"/>
 <text x="416" y="62" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#52514e">Occupation</text>
-<text x="236.0" y="88" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#0b0b0b">WorldMedQA-Pain (licensing exams)</text>
+<text x="236.0" y="88" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#0b0b0b">WorldMedQA-Pain</text>
 <line x1="44.0" y1="402.0" x2="428.0" y2="402.0" stroke="#e4e4e1" stroke-width="1"/>
 <text x="36" y="406.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" text-anchor="end" fill="#52514e">0%</text>
 <line x1="44.0" y1="330.0" x2="428.0" y2="330.0" stroke="#e4e4e1" stroke-width="1"/>
@@ -51,7 +51,7 @@
 <g class="bar"><path d="M405.0,402.0V380.2Q405.0,376.2 409.0,376.2H415.0Q419.0,376.2 419.0,380.2V402.0Z" fill="#e87ba4"><title>Brazil REVALIDA · Occupation: 9.0%</title></path><text x="412.0" y="370.2" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="600" text-anchor="middle" fill="#0b0b0b">9.0%</text></g>
 <text x="380.0" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" text-anchor="middle" fill="#0b0b0b">Brazil REVALIDA</text>
 <text x="380.0" y="435" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle" fill="#52514e">pt</text>
-<text x="704.0" y="88" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#0b0b0b">BRIDGE-Pain (clinical text, from the paper)</text>
+<text x="704.0" y="88" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" text-anchor="middle" fill="#0b0b0b">BRIDGE-Pain</text>
 <line x1="464.0" y1="402.0" x2="944.0" y2="402.0" stroke="#e4e4e1" stroke-width="1"/>
 <line x1="464.0" y1="330.0" x2="944.0" y2="330.0" stroke="#e4e4e1" stroke-width="1"/>
 <line x1="464.0" y1="258.0" x2="944.0" y2="258.0" stroke="#e4e4e1" stroke-width="1"/>

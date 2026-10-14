@@ -127,7 +127,7 @@ def main() -> None:
         wmqa.append((label, lang, values))
         print(f"{label:16} n={n:5} resolved={resolved:5}  " + "  ".join(f"{m}={v:.1f}" for m, v in zip(METRICS, values)))
     bridge = [(label, lang, values) for label, lang, _, _, values in BRIDGE]
-    panels = [("WorldMedQA-Pain (licensing exams)", wmqa), ("BRIDGE-Pain (clinical text, from the paper)", bridge)]
+    panels = [("WorldMedQA-Pain", wmqa), ("BRIDGE-Pain", bridge)]
     OUT_DIR.mkdir(exist_ok=True)
     for name, theme in THEMES.items():
         path = OUT_DIR / ("label_stats.svg" if name == "light" else "label_stats_dark.svg")
