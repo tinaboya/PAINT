@@ -1,0 +1,24 @@
+name: check
+
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Released labels rebuild with zero differences
+        run: python src/paint/build_wmqa_labels.py --check
+      - name: Clinician validation scripts run from the released sheets
+        run: |
+          python src/paint/clinician_validation.py
+          python src/paint/inter_annotator_agreement.py
+          python src/paint/kappa_transparency.py
