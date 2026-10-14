@@ -131,16 +131,7 @@ The aggregation code is in `src/paint/analysis.py` (`_ensemble_demo`, `_ensemble
 is normalised to years and gender to male/female with a small cross-lingual dictionary; ethnicity
 and occupation stay as written.
 
-## Limitations
-
-The labels describe pain as written down by clinicians and exam authors. None of the corpora have
-patient-reported pain scores. Demographic values are what the models extracted, aggregated by
-majority; nobody verified them against a person.
-
-Corpus purpose, language, country and health system all change together across partitions.
-Differences between partitions reflect the corpora. They say nothing about how people in
-different countries experience pain. The English exam is British and the English clinical corpora
-are American; both Portuguese partitions are Brazilian.
+## Intended use
 
 WorldMedQA contains no patient data. The annotation study had an IRB exemption from MIT; the ten
 annotators (nine physicians and one pharmacist) are co-authors. The MIT license covers the code
