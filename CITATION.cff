@@ -1,0 +1,83 @@
+cff-version: 1.2.0
+message: "If you use PAINT, please cite the paper below (preferred-citation) and, where applicable, the source corpora."
+title: "PAINT: A Framework for Multilingual Pain Representation from Medical Licensing Exams to Real-World Clinical Texts"
+type: software
+repository-code: "https://github.com/tinaboya/PAINT"
+license: MIT
+authors:
+  - family-names: Zhang
+    given-names: Boya
+  - family-names: Ma
+    given-names: Yuanchao
+  - family-names: Wu
+    given-names: Jiageng
+  - family-names: Chaisutyakorn
+    given-names: Krittaphas
+  - family-names: Gameiro
+    given-names: Rodrigo
+  - family-names: Han
+    given-names: Ahram
+  - family-names: Huang
+    given-names: Chien-Yu
+  - family-names: Jaiswal
+    given-names: Nikhil
+  - family-names: Leite
+    given-names: Marianna
+  - family-names: Mora-Mau
+    given-names: Miriam
+  - family-names: Pineda-Moreno
+    given-names: Jaime
+  - family-names: Placino
+    given-names: Siena
+  - family-names: Yamamoto
+    given-names: Ryohei
+  - family-names: Jia
+    given-names: Yugang
+  - family-names: Yang
+    given-names: Jie
+  - family-names: Celi
+    given-names: Leo Anthony
+  - family-names: Teodoro
+    given-names: Douglas
+preferred-citation:
+  type: generic
+  title: "PAINT: A Framework for Multilingual Pain Representation from Medical Licensing Exams to Real-World Clinical Texts"
+  year: 2026
+  doi: 10.48550/arXiv.2610.18269
+  url: "https://arxiv.org/abs/2610.18269"
+  notes: "Accepted at the 6th Workshop on Multilingual Representation Learning (MRL 2026), EMNLP 2026, Budapest"
+  authors:
+    - family-names: Zhang
+      given-names: Boya
+    - family-names: Ma
+      given-names: Yuanchao
+    - family-names: Wu
+      given-names: Jiageng
+    - family-names: Chaisutyakorn
+      given-names: Krittaphas
+    - family-names: Gameiro
+      given-names: Rodrigo
+    - family-names: Han
+      given-names: Ahram
+    - family-names: Huang
+      given-names: Chien-Yu
+    - family-names: Jaiswal
+      given-names: Nikhil
+    - family-names: Leite
+      given-names: Marianna
+    - family-names: Mora-Mau
+      given-names: Miriam
+    - family-names: Pineda-Moreno
+      given-names: Jaime
+    - family-names: Placino
+      given-names: Siena
+    - family-names: Yamamoto
+      given-names: Ryohei
+    - family-names: Jia
+      given-names: Yugang
+    - family-names: Yang
+      given-names: Jie
+    - family-names: Celi
+      given-names: Leo Anthony
+    - family-names: Teodoro
+      given-names: Douglas

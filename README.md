@@ -5,6 +5,7 @@
 <h1 align="center">A Framework for Multilingual Pain Representation<br>from Medical Licensing Exams to Real-World Clinical Texts</h1>
 
 <p align="center">
+  <a href="https://arxiv.org/abs/2610.18269"><img src="https://img.shields.io/badge/arXiv-2610.18269-b31b1b" alt="arXiv"></a>
   <img src="https://img.shields.io/badge/python-3.9%2B-blue" alt="Python 3.9+">
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
   <img src="https://img.shields.io/badge/languages-EN%20%C2%B7%20ES%20%C2%B7%20PT%20%C2%B7%20JA-orange" alt="Languages">
@@ -15,6 +16,11 @@
   <b>PAINT</b> extracts structured <b>pain</b> and <b>demographic</b> attributes from medical-licensing
   exams (WorldMedQA) and real clinical text (BRIDGE) across four languages, using a strict
   three-model open-weight ensemble to study how pain is framed across languages and care settings.
+</p>
+
+<p align="center">
+  Paper: <a href="https://arxiv.org/abs/2610.18269">arXiv:2610.18269</a> ·
+  Accepted at the 6th Workshop on Multilingual Representation Learning (MRL 2026), EMNLP 2026, Budapest
 </p>
 
 ---
@@ -155,6 +161,26 @@ prompts/                  pain + demographic extraction prompts (EN/ES/PT/JA)
 annotation/               scripts that build the clinician annotation sheets
   completed_sheets/       returned sheets, public corpora only (source text removed)
 ```
+
+## Citation
+
+If you use PAINT, its labels, or the pipeline, please cite:
+
+```bibtex
+@misc{zhang2026paint,
+  title         = {{PAINT}: A Framework for Multilingual Pain Representation from Medical Licensing Exams to Real-World Clinical Texts},
+  author        = {Zhang, Boya and Ma, Yuanchao and Wu, Jiageng and Chaisutyakorn, Krittaphas and Gameiro, Rodrigo and Han, Ahram and Huang, Chien-Yu and Jaiswal, Nikhil and Leite, Marianna and Mora-Mau, Miriam and Pineda-Moreno, Jaime and Placino, Siena and Yamamoto, Ryohei and Jia, Yugang and Yang, Jie and Celi, Leo Anthony and Teodoro, Douglas},
+  year          = {2026},
+  eprint        = {2610.18269},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  doi           = {10.48550/arXiv.2610.18269},
+  note          = {Accepted at the 6th Workshop on Multilingual Representation Learning (MRL 2026), EMNLP 2026, Budapest}
+}
+```
+
+Please also cite the source corpora you use: WorldMedQA for the exam partitions and, for
+BRIDGE-Pain, BRIDGE together with the underlying clinical corpora.
 
 ## License
 
